@@ -1,7 +1,0 @@
-tmucentral/node_modules/
-tmucentral/.env
-tmucentral/*.log
-tmucentral/.vscode/
-tmucentral/npm-debug.log*
-tmucentral/.DS_Store
-.DS_Store
