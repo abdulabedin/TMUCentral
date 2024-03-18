@@ -1,15 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Container, Navbar, Nav, Form, FormControl, Button, Dropdown, InputGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-function NavBar() {
+const NavBar = () => {
+  const [priceDropdown, setPriceDropdown] = useState(false);
+
+  const togglePriceDropdown = () => setPriceDropdown(!priceDropdown);
+
   return (
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/contact">Contact</a></li>
-      </ul>
-    </nav>
+    <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
+      <Container fluid>
+        <Navbar.Brand href="#" style={{ color: '#fff' }}>TMUCENTRAL</Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Form className="d-flex flex-grow-1 justify-content-center">
+            <FormControl
+              type="search"
+              placeholder="What are you looking for?"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Dropdown>
+              <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
+                Category
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="#/academic-services">Academic Services</Dropdown.Item>
+                <Dropdown.Item href="#/items-for-sale">Items for Sale</Dropdown.Item>
+                <Dropdown.Item href="#/items-wanted">Items Wanted</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button variant="outline-light" className="ms-2" onClick={togglePriceDropdown}>
+              Price
+            </Button>
+            <Button variant="success" className="ms-2">Search</Button>
+          </Form>
+          {priceDropdown && (
+            <div className="position-absolute bg-white p-3" style={{ zIndex: 1000 }}>
+              <h6>Price</h6>
+              <InputGroup>
+                <FormControl placeholder="from" />
+                <FormControl placeholder="to" />
+              </InputGroup>
+              <Button variant="outline-secondary" className="w-100 mt-2">
+                Apply
+              </Button>
+            </div>
+          )}
+          <Nav className="ms-auto">
+            <Nav.Link href="/register" style={{ color: '#fff' }}>Register</Nav.Link>
+            <Nav.Link href="/login" style={{ color: '#fff' }}>Sign In</Nav.Link>
+            <Link to="/postad" className="ms-2">
+              <Button variant="primary" >Post ad</Button>
+            </Link>
+
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-}
+};
 
 export default NavBar;
