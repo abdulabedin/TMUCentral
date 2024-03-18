@@ -1,0 +1,38 @@
+.ad-card {
+    margin: 1rem;
+    border: none;
+    border-radius: 0.5rem; /* Rounded corners */
+    transition: transform 0.3s ease; /* Smooth transform on hover */
+  }
+  
+  .ad-card:hover {
+    transform: translateY(-5px); /* Slight raise effect on hover */
+  }
+  
+  .ad-card-image {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
+  }
+  
+  .ad-card-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .ad-card-price {
+    color: #4a4a4a; /* Subdued text color for price */
+    font-weight: 500;
+  }
+  
+  .ad-card-description {
+    font-size: 0.9rem;
+    color: #6c757d; /* Muted description text */
+  }
+  
+  .ad-card-date,
+  .ad-card-location {
+    font-size: 0.8rem;
+    color: #6c757d; /* Consistent color for meta info */
+  }
+  
