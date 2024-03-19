@@ -11,7 +11,7 @@ connectDB();
 const router = require('./route');
 app.use('/api', router);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3001; // Replace for env variable
 app.listen(PORT, () => {
     console.log(`Database server is running on http://localhost:${PORT}`);
 });

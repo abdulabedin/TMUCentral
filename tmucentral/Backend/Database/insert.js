@@ -1,6 +1,5 @@
 const model = require('./model');
 
-// Insert Document
 exports.addUser = async(req, res) => {
     try {
         const doc = {

@@ -1,33 +1,60 @@
 const model = require('./model');
 
-// {DELETE AFTER TESTING} For Testing Purposes - Clear all database documents
-exports.clearDB = async(req, res) => {
+exports.deleteUser = async(req, res) => {
     try {
-        let result;
-
-        result = await model.User.deleteMany({});
-        console.log("All 'User' documents have been deleted.");
+        const result = await model.User.deleteOne(req.body.id);
         res.json(result);
+        console.log("User has been deleted.");
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
 
-        result = await model.Product.deleteMany({});
-        console.log("All 'Product' documents have been deleted.");
+exports.deleteProduct = async(req, res) => {
+    try {
+        const result = await model.Product.deleteOne(req.body.id);
         res.json(result);
+        console.log("Product has been deleted.");
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
 
-        result = await model.Category.deleteMany({});
-        console.log("All 'Category' documents have been deleted.");
+exports.deleteCategory = async(req, res) => {
+    try {
+        const result = await model.Category.deleteOne(req.body.id);
         res.json(result);
+        console.log("Category has been deleted.");
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
 
-        result = await model.Seller.deleteMany({});
-        console.log("All 'Seller' documents have been deleted.");
+exports.deleteSeller = async(req, res) => {
+    try {
+        const result = await model.Seller.deleteOne(req.body.id);
         res.json(result);
+        console.log("Seller has been deleted.");
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
 
-        result = await model.Buyer.deleteMany({});
-        console.log("All 'Buyer' documents have been deleted.");
+exports.deleteBuyer = async(req, res) => {
+    try {
+        const result = await model.Buyer.deleteOne(req.body.id);
         res.json(result);
+        console.log("Buyer has been deleted.");
+    } catch(err) {
+        res.status(500).send(err);
+    }
+}
 
-        result = await model.Purchase.deleteMany({});
-        console.log("All 'Purchase' documents have been deleted.");
+exports.deletePurchase = async(req, res) => {
+    try {
+        const result = await model.Purchase.deleteOne(req.body.id);
         res.json(result);
+        console.log("Purchase has been deleted.");
     } catch(err) {
         res.status(500).send(err);
     }
