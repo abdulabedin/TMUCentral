@@ -20,6 +20,7 @@ const NavBar = () => {
               className="me-2"
               aria-label="Search"
             />
+            <Button variant="success" className="ms-2">Search</Button>
             <Dropdown>
               <Dropdown.Toggle variant="outline-light" id="dropdown-basic">
                 Category
@@ -34,7 +35,7 @@ const NavBar = () => {
             <Button variant="outline-light" className="ms-2" onClick={togglePriceDropdown}>
               Price
             </Button>
-            <Button variant="success" className="ms-2">Search</Button>
+            {/* <Button variant="success" className="ms-2">Search</Button> */}
           </Form>
           {priceDropdown && (
             <div className="position-absolute bg-white p-3" style={{ zIndex: 1000 }}>
