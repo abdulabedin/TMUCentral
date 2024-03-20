@@ -12,17 +12,13 @@ const userSchema = new Schema({
 
 const productSchema = new Schema({
     sold: Boolean,
-    date: Date,
+    datePosted: Date,
     title: String,
-    price: String,
+    price: Number,
     location: String,
+    category: String,
     description: String,
     image: String
-});
-
-const categorySchema = new Schema({
-    category: String,
-    productID: ObjectId
 });
 
 const sellerSchema = new Schema({
@@ -35,18 +31,17 @@ const buyerSchema = new Schema({
     productID: ObjectId
 });
 
-const purchaseSchema = new Schema({
+const transactionSchema = new Schema({
     productID: ObjectId,
     sellerID: ObjectId,
-    buyerID: ObjectId
+    buyerID: ObjectId,
+    datePurchased: Date
 });
 
-// Construct Models
 const User = model('User', userSchema);
 const Product = model('Product', productSchema);
-const Category = model('Category', categorySchema);
 const Seller = model('Seller', sellerSchema);
 const Buyer = model('Buyer', buyerSchema);
-const Purchase = model('Purchase', purchaseSchema);
+const Transaction = model('Transaction', transactionSchema);
 
-module.exports = {User, Product, Category, Seller, Buyer, Purchase}
+module.exports = {User, Product, Seller, Buyer, Transaction}

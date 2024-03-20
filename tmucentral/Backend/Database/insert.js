@@ -1,104 +1,33 @@
 const model = require('./model');
 
-exports.addUser = async(req, res) => {
+insertFunction = async(req, res, input_model) => {
     try {
-        const doc = {
-            name: req.body.name,
-            studentID: req.body.studentID,
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email
-        };
-        const result = await model.User.insertOne(doc);
-
-        console.log("User has been added.");
-        res.json(result);
+        const data = await req.body;
+        const result = await input_model.create(data);
+        res.status(201).json(result);
     } catch(err) {
         res.status(500).send(err);
     }
+}
+
+exports.addUser = async(req, res) => {
+    // User Validation code here...
+    insertFunction(req, res, model.User);
 }
 
 exports.addProduct = async(req, res) => {
-    try {
-        const doc = {
-            sold: req.body.sold,
-            date: req.body.date,
-            title: req.body.title,
-            price: req.body.price,
-            location: req.body.location,
-            description: req.body.description,
-            image: req.body.image
-        };
-        const result = await model.Product.insertOne(doc);
-
-        console.log("Product has been added.");
-        res.json(result);
-    } catch(err) {
-        res.status(500).send(err);
-    }
-}
-
-exports.addCategory = async(req, res) => {
-    try {
-        const doc = {
-            category: req.body.category,
-            productID: req.body.productID
-        };
-
-        const result = await model.Category.insertOne(doc);
-
-        console.log("Category has been added.");
-        res.json(result);
-    } catch(err) {
-        res.status(500).send(err);
-    }
+    // User Validation code here...
+    insertFunction(req, res, model.Product);
 }
 
 exports.addSeller = async(req, res) => {
-    try {
-        const doc = {
-            userID: req.body.userID,
-            productID: req.body.productID
-        };
-
-        const result = await model.Seller.insertOne(doc);
-
-        console.log("Seller has been added.");
-        res.json(result);
-    } catch(err) {
-        res.status(500).send(err);
-    }
+    insertFunction(req, res, model.Seller);
 }
 
 exports.addBuyer = async(req, res) => {
-    try {
-        const doc = {
-            userID: req.body.userID,
-            productID: req.body.productID
-        };
-
-        const result = await model.Buyer.insertOne(doc);
-
-        console.log("Buyer has been added.");
-        res.json(result);
-    } catch(err) {
-        res.status(500).send(err);
-    }
+    insertFunction(req, res, model.Buyer);
 }
 
-exports.addPurchase = async(req, res) => {
-    try {
-        const doc = {
-            productID: req.body.productID,
-            sellerID: req.body.sellerID,
-            buyerID: req.body.buyerID
-        };
-
-        const result = await model.Purchase.insertOne(doc);
-
-        console.log("Purchase has been added.");
-        res.json(result);
-    } catch(err) {
-        res.status(500).send(err);
-    }
+exports.addTransaction = async(req, res) => {
+    insertFunction(req, res, model.Transaction);
 }
