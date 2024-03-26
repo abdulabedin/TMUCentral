@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    sold: {
+        type: Boolean,
+        required: true,
+    },
     // image: {
     //     data: Buffer,         // store image as binary data
     //     contentType: String,
