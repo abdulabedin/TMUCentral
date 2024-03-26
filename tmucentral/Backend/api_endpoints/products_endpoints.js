@@ -55,12 +55,12 @@ router.patch('/products/product/:id', async (req, res) => {
 router.get('/products/tags/:tags', async (req, res) => {
     try {
         const prodTags = req.params.tags.split(',');
-        console.log("Tags:", prodTags); // Log prodTags to check its format
+        // console.log("Tags:", prodTags); // Log prodTags to check its format
         const result = await Products.find({ "tags.tag": { $in: prodTags } });
-        console.log("Result:", result); // Log the result to see what's returned
+        // console.log("Result:", result); // Log the result to see what's returned
         res.status(200).send({ 'Product': result });
     } catch (err) {
-        console.error(err); // Log the error for debugging
+        // console.error(err); // Log the error for debugging
         res.status(500).send({ 'error': err.message });
     }
 });

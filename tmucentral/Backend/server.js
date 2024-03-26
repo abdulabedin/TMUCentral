@@ -20,8 +20,10 @@ const CONNECTION = process.env.CONNECTION;
 // Mount enpoint routers
 const usersRouter = require('./api_endpoints/users_endpoints');
 const productsRouter = require('./api_endpoints/products_endpoints');
+const cartRouter = require('./api_endpoints/cart_endpoints');
 app.use('/api', usersRouter);
 app.use('/api', productsRouter);
+app.use('/api', cartRouter);
 
 
 
