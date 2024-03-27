@@ -1,17 +1,35 @@
-import React, { useRef } from "react";
-import { Form, Button, Card } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import React, { useRef, useState } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function Login() {
+export default function Login({onFormSubmit}) {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const [error, setError] = useState("");
+  const navigate = useNavigate(); // Updated here
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    try {
+      const data = {
+        email: emailRef.current.value,
+        password: passwordRef.current.value
+      };
+      const msg = "You have sucessfully logged in!";
+      await onFormSubmit('/searchUser', data, msg);
+      navigate("/");
+    } catch {
+      setError("Failed to log in");
+    }
+  }
 
   return (
     <>
       <Card style={{ width: '50%', margin: '0 auto', marginTop: '20px' }}>
         <Card.Body>
           <h2 className="text-center mb-4">Log In</h2>
-          <Form>
+          {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
             <Form.Group id="email" className="mb-3"> 
               <Form.Label style={{ fontWeight: 'bold' }}>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />

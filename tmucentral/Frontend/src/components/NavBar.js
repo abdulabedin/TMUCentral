@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Navbar, Nav, Form, FormControl, Button, Dropdown, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({onFormSubmit}) => {
+  const titleRef = useRef();
   const [priceDropdown, setPriceDropdown] = useState(false);
 
   const togglePriceDropdown = () => setPriceDropdown(!priceDropdown);
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    try {
+      const data = {title: titleRef.current.value};
+      const msg = "Results found!";
+      await onFormSubmit('/searchAd', data, msg);
+    } catch {
+      alert("No Results");
+    }
+  }
+
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="shadow-sm">
@@ -13,10 +26,11 @@ const NavBar = () => {
         <Navbar.Brand href="#" style={{ color: '#fff' }}>TMUCENTRAL</Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Form className="d-flex flex-grow-1 justify-content-center">
+          <Form onSubmit={handleSubmit} className="d-flex flex-grow-1 justify-content-center">
             <FormControl
               type="search"
               placeholder="What are you looking for?"
+              ref={titleRef}
               className="me-2"
               aria-label="Search"
             />

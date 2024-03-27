@@ -3,7 +3,7 @@ const model = require('../model');
 exports.getReview = async(req, res) => {
     try{
         const result = await model.Review.find();
-        if(result === 0){
+        if(result == 0){
             res.status(404).send({'error': 'No results returned'})
         }
         else {

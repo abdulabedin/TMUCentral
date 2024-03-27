@@ -1,41 +1,49 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import AdCard from './AdCard';
 
 const AdDisplayCard = () => {
+  const [ads, setAds] = useState([]);
+
+    // Get advertisements from the server API
+    useEffect(() => {
+        const PORT = process.env.PORT || 3005;
+        const url = `http://localhost:${PORT}/api/database/getAds`;
+        fetch(url)
+            .then((resp) => {
+                // Check if any issues occurred
+                if (!resp.ok) {
+                    throw new Error("Network reponse was not okay");
+                }
+                return resp.json();
+            })
+            
+            // Update the advertisements
+            .then(ads => setAds(ads.Ads))
+
+            // Output error if a problem occurs
+            .catch(err => console.error(err));
+    });
+
+
+
+
     return (
         <Container>
         <Row>
+        {ads.map((ad) => (
           <Col>
             <AdCard
-              price="$100"
-              title="Example Title 1"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              price={ad.price}
+              title={ad.title}
+              description={ad.description}
               image="https://m.media-amazon.com/images/I/71vFKBpKakL._AC_UF894,1000_QL80_.jpg"
-              postDate="March 15, 2024"
-              location="New York"
+              // image={ad.image}
+              postDate={ad.postDate}
+              location={ad.location}
             />
           </Col>
-          <Col>
-            <AdCard
-              price="$200"
-              title="Example Title 2"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              image="https://m.media-amazon.com/images/I/71vFKBpKakL._AC_UF894,1000_QL80_.jpg"
-              postDate="March 16, 2024"
-              location="Los Angeles"
-            />
-          </Col>
-          <Col>
-            <AdCard
-              price="$300"
-              title="Example Title 3"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              image="https://m.media-amazon.com/images/I/71vFKBpKakL._AC_UF894,1000_QL80_.jpg"
-              postDate="March 17, 2024"
-              location="Chicago"
-            />
-          </Col>
+        ))}
         </Row>
       </Container>
     );

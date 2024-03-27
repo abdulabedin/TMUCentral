@@ -4,20 +4,22 @@ const _ad = require('./api_endpoints/ad');
 const _review = require('./api_endpoints/review');
 
 router
-    .get('/users', _user.getUsers)
-    .post('/users', _user.postUser)
+    .get('/getUsers', _user.getUsers)
+    .post('/postUser', _user.postUser)
+    .post('/searchUser', _user.searchUser)
     .get('/users/id/:id', _user.getUserID)
     .put('/users/id/:id', _user.putUserID)
     .patch('/users/id/:id', _user.patchUser)
     .delete('/users/id/:id', _user.deleteUser)
 
-    .get('/ads', _ad.getAds)
-    .post('/ads', _ad.postAds)
+    .get('/getAds', _ad.getAds)
+    .post('/postAds', _ad.postAds)
     .patch('/ads/ads/:id', _ad.patchAds)
+    .post('/searchAd', _ad.searchAd)
     .get('/ads/tags/:tags', _ad.getAdTags)
 
-    .get('/reviews', _review.getReview)
-    .post('/reviews', _review.postReview)
+    .get('/getReview', _review.getReview)
+    .post('/postReview', _review.postReview)
     .patch('/reviews/reviews/:id', _review.patchReview)
 
 module.exports = router;

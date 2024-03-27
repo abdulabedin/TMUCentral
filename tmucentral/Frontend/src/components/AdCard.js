@@ -2,6 +2,13 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 function AdCard({ price, title, description, image, postDate, location }) {
+  // Reformat data for AdCard
+  price = `\$${price}.00`;
+
+  const date = postDate.substring(0, 10);
+  const time = postDate.substring(11, 20);
+  postDate = date + " " + time;
+
   return (
     <Card className="text-center">
       <Card.Img

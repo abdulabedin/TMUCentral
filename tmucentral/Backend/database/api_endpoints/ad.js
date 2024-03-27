@@ -4,8 +4,8 @@ const model = require('../model');
 exports.getAds = async(req, res) => {
     try{
         const result = await model.Ad.find();
-        if(result === 0){
-            res.status(404).send({'error': 'No results returned'})
+        if(result == 0){
+            res.status(404).send({'error': 'No results returned'});
         }
         else {
             res.status(200).send({'Ads': result});
@@ -38,6 +38,23 @@ exports.patchAds = async(req, res) => {
         res.status(201).send({'Ads': result});
     }
     catch(err) {
+        res.status(500).send({'error': err.message});
+    }
+};
+
+// Find ad by title
+exports.searchAd = async(req, res) => {
+    try{
+        console.log(req.body.title);
+        const result = await model.Ad.find({title: req.body.title});
+        if(result == 0){
+            res.status(404).send({'error': 'No results returned'});
+        }
+        else {
+            res.status(200).send({'Ad': result});
+        }
+    }
+    catch(err){
         res.status(500).send({'error': err.message});
     }
 };

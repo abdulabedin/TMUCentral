@@ -4,7 +4,7 @@ const model = require('../model');
 exports.getUsers = async(req, res) => {
     try{
         const result = await model.User.find();
-        if(result === 0){
+        if(result == 0){
             res.status(404).send({'error': 'No results returned'})
         }
         else {
@@ -19,7 +19,6 @@ exports.getUsers = async(req, res) => {
 // Add user to DB
 exports.postUser = async(req, res) => {
     try{
-        // console.log(req.body);
         const user = new model.User(req.body);          // Create new user
         await user.save();                         // Save user into DB. await added to wait for user to be saved before sending the response
         res.status(201).send({"Users": user});
@@ -29,6 +28,22 @@ exports.postUser = async(req, res) => {
     }
 };
 
+exports.searchUser = async(req, res) => {
+    try{
+        console.log(req.body);
+        const result = await model.User.find(req.body);
+        console.log("Result: ", result);
+        if(result == 0){
+            res.status(404).send({'error': 'No results returned'})
+        }
+        else {
+            res.status(200).send({'Review': result});
+        }
+    }
+    catch(err){
+        res.status(500).send({'error': err.message});
+    }
+}
 
 // // Setting up parameterized URL and Query Stiring param
 // // Return a single user based on their id
