@@ -1,15 +1,7 @@
-const express = require('express');
-const router = express.Router();
-
-// Export router to other files
-module.exports = router;
-
-// Load the models
-const Users = require('../models/users');
-
+const model = require('./model');
 
 // Retreive all users in the DB
-router.get('/users', async (req, res) =>{
+exports.getUser = async(req, res) => {
     try {
         const result = await Users.find(); // return all users from the Users schema
         if(result.length === 0) {
@@ -23,10 +15,10 @@ router.get('/users', async (req, res) =>{
     catch(err) {
         res.status(500).send(err.message);
     }
-});
+};
 
 // Add user to DB
-router.post('/users', async (req, res) => {
+exports.postUser = async(req, res) => {
     try{
         // console.log(req.body);
         const user = new Users(req.body);          // Create new user
@@ -36,12 +28,12 @@ router.post('/users', async (req, res) => {
     catch(err){
         res.status(400).send(err.message);   // status 400 = user submitted bad request
     }
-});
+};
 
 
 // Setting up parameterized URL and Query Stiring param
 // Return a single user based on their id
-router.get('/users/id/:id', async (req, res) => {   
+exports.getUserID = async(req, res) => {  
     // console.log({
     //     "requestParams": req.params,
     //     "requestQuery": req.query, 
@@ -63,11 +55,11 @@ router.get('/users/id/:id', async (req, res) => {
     catch(err) {
         res.status(500).send({'error': err.message});
     }
-});
+};
 
 
 // Update a user based on their ide, completely, in DB
-router.put('/users/id/:id', async (req, res) => {
+exports.putUser = async(req, res) => {  
     try{
         const {id: userID} = req.params;
         // Find the object in DB and replace it. the new args is a flag returning the changed data
@@ -78,11 +70,11 @@ router.put('/users/id/:id', async (req, res) => {
     catch(err) {
         res.status(500).send({'error': err.message});
     }
-});
+};
 
 
 // Update specific properties of user instead of replacing entire entry
-router.patch('/users/id/:id', async (req, res) => {
+exports.patchUser = async(req, res) => {
     try{
         const {id: userID} = req.params;
         const result = await Users.findOneAndUpdate({_id: userID}, req.body, {new: true});  // Find the object in DB and replace it. the new args is a flag returning the changed data
@@ -92,10 +84,10 @@ router.patch('/users/id/:id', async (req, res) => {
     catch(err) {
         res.status(500).send({'error': err.message});
     }
-});
+};
 
 // Delete user from DB
-router.delete('/users/id/:id', async (req, res) => {
+exports.deleteUser = async(req, res) => {
     try{
         const {id: userID} = req.params;
         const result = await Users.deleteOne({_id: userID});
@@ -104,7 +96,7 @@ router.delete('/users/id/:id', async (req, res) => {
     catch(err) {
         res.status(500).send({'error': err.message});
     }
-});
+};
 
 
 // ---------  THIS IS FOR WHEN WE DEAL WITH NESTED OBJECTS ----------------
