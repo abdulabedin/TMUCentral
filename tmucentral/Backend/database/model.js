@@ -11,7 +11,7 @@ const User = model('User', new Schema({
     email: {type: String, required: true}
 }));
 
-const Post = model('Post', new Schema({
+const Ad = model('Post', new Schema({
     user: {type: ObjectId, required: true},
     postDate: {type: Date, required: true},
     title: {type: String, required: true},
@@ -36,4 +36,4 @@ const Review = model('Review', new Schema({
     description: {type: String, required: true}
 }));
 
-module.exports = {User, Post, Review}
+module.exports = {User, Ad, Review}
