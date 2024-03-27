@@ -1,21 +1,20 @@
-const model = require('./model');
+const model = require('../model');
 
 // Retreive all users in the DB
-exports.getUser = async(req, res) => {
-    try {
-        const result = await model.User.find(); // return all users from the Users schema
-        if(result.length === 0) {
-            res.status(404).send({'error': 'No entries'});
+exports.getUsers = async(req, res) => {
+    try{
+        const result = await model.User.find();
+        if(result === 0){
+            res.status(404).send({'error': 'No results returned'})
         }
-        else{
-            res.status(200).send({"Users": result});
+        else {
+            res.status(200).send({'Review': result});
         }
-        
     }
-    catch(err) {
-        res.status(500).send(err.message);
+    catch(err){
+        res.status(500).send({'error': err.message});
     }
-};
+}
 
 // Add user to DB
 exports.postUser = async(req, res) => {
@@ -31,8 +30,8 @@ exports.postUser = async(req, res) => {
 };
 
 
-// Setting up parameterized URL and Query Stiring param
-// Return a single user based on their id
+// // Setting up parameterized URL and Query Stiring param
+// // Return a single user based on their id
 exports.getUserID = async(req, res) => {  
     // console.log({
     //     "requestParams": req.params,
@@ -57,9 +56,8 @@ exports.getUserID = async(req, res) => {
     }
 };
 
-
 // Update a user based on their ide, completely, in DB
-exports.putUser = async(req, res) => {  
+exports.putUserID = async(req, res) => {  
     try{
         const {id: userID} = req.params;
         // Find the object in DB and replace it. the new args is a flag returning the changed data
@@ -162,4 +160,3 @@ router.get('/users/test/:id', async (req, res) => {
 //         res.status(200).send(result);
 //     }
 // });
-

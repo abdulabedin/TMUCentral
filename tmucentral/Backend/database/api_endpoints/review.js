@@ -1,4 +1,4 @@
-const model = require('./model');
+const model = require('../model');
 
 exports.getReview = async(req, res) => {
     try{

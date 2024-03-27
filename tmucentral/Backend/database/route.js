@@ -7,7 +7,7 @@ router
     .get('/users', _user.getUsers)
     .post('/users', _user.postUser)
     .get('/users/id/:id', _user.getUserID)
-    .put('/users/id/:id', _user.getUserID)
+    .put('/users/id/:id', _user.putUserID)
     .patch('/users/id/:id', _user.patchUser)
     .delete('/users/id/:id', _user.deleteUser)
 
