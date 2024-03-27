@@ -14,6 +14,15 @@
 //   );
 // }
 
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
+// This component can now be used within your Routes to protect any route.
+export default function PrivateRoute() {
+  const { currentUser } = useAuth();
 
-
+  // If currentUser exists, render the child components (Outlet)
+  // Otherwise, redirect to the login page
+  return currentUser ? <Outlet /> : <Navigate to="/login" replace />;
+}
