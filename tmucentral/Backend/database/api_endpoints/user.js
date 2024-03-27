@@ -3,7 +3,7 @@ const model = require('./model');
 // Retreive all users in the DB
 exports.getUser = async(req, res) => {
     try {
-        const result = await Users.find(); // return all users from the Users schema
+        const result = await model.User.find(); // return all users from the Users schema
         if(result.length === 0) {
             res.status(404).send({'error': 'No entries'});
         }
@@ -21,7 +21,7 @@ exports.getUser = async(req, res) => {
 exports.postUser = async(req, res) => {
     try{
         // console.log(req.body);
-        const user = new Users(req.body);          // Create new user
+        const user = new model.User(req.body);          // Create new user
         await user.save();                         // Save user into DB. await added to wait for user to be saved before sending the response
         res.status(201).send({"Users": user});
     }
@@ -42,7 +42,7 @@ exports.getUserID = async(req, res) => {
         const {id: userID} = req.params; //destructuring
         // console.log('here');
         // console.log(userID);
-        const result = await Users.findById(userID);
+        const result = await model.User.findById(userID);
         // console.log(result);
         // Check to see if user with specified id exists in DB
         if(!result) {
@@ -63,7 +63,7 @@ exports.putUser = async(req, res) => {
     try{
         const {id: userID} = req.params;
         // Find the object in DB and replace it. the new args is a flag returning the changed data
-        const result = await Users.findOneAndReplace({_id: userID}, req.body, {new: true});  
+        const result = await model.User.findOneAndReplace({_id: userID}, req.body, {new: true});  
         console.log(result);
         res.status(200).send({result});
     }
@@ -77,7 +77,7 @@ exports.putUser = async(req, res) => {
 exports.patchUser = async(req, res) => {
     try{
         const {id: userID} = req.params;
-        const result = await Users.findOneAndUpdate({_id: userID}, req.body, {new: true});  // Find the object in DB and replace it. the new args is a flag returning the changed data
+        const result = await model.User.findOneAndUpdate({_id: userID}, req.body, {new: true});  // Find the object in DB and replace it. the new args is a flag returning the changed data
         console.log(result);
         res.status(200).send({result});
     }
@@ -90,7 +90,7 @@ exports.patchUser = async(req, res) => {
 exports.deleteUser = async(req, res) => {
     try{
         const {id: userID} = req.params;
-        const result = await Users.deleteOne({_id: userID});
+        const result = await model.User.deleteOne({_id: userID});
         res.status(200).send({'deletedCount': result.deletedCount})
     }
     catch(err) {
@@ -107,7 +107,7 @@ router.patch('/users/test/:id', async (req, res) => {
     const testID = req.params.id;
     req.body._id = testID;      // prevent mongodb from overwriting current id
     try{
-        const result = await Users.findOneAndUpdate(
+        const result = await model.User.findOneAndUpdate(
             {'test._id': testID},           // Find user with testid
             {$set: {'test.$': req.body}},   // Update the parameter associated with test object
             {new: true}
@@ -128,7 +128,7 @@ router.patch('/users/test/:id', async (req, res) => {
 
 router.get('/users/test/:id', async (req, res) => {
     try{
-        const result = await Users.findOne({'test._id': req.params.id});  // returns the enture document with all the info
+        const result = await model.User.findOne({'test._id': req.params.id});  // returns the enture document with all the info
         if(result) {
             res.send(result.test);                                        // return specific part of the document, in this case its the test attribute                             
         }
@@ -152,7 +152,7 @@ router.get('/users/test/:id', async (req, res) => {
 //     });
 //     const {studentID: studentNo} = req.params; //destructuring
 //     // console.log(studentNo);
-//     const result = await Users.find({"studentID":studentNo});   // retreive specific user based on studentID
+//     const result = await model.User.find({"studentID":studentNo});   // retreive specific user based on studentID
 //     // Check to see if returned result has length of 0
 //     if(result.length === 0) {
 //         res.status(404).send({'error': `No user found with student ID ${studentNo}`});

@@ -1,45 +1,39 @@
 const model = require('./model');
 
 exports.getReview = async(req, res) => {
-    try {
-        const query = await req.body;
-        const result = await model.Review.find(query);
-        res.status(200).send(result);
-    } catch(err) {
-        res.status(500).send(err.message);
+    try{
+        const result = await model.Review.find();
+        if(result === 0){
+            res.status(404).send({'error': 'No results returned'})
+        }
+        else {
+            res.status(200).send({'Review': result});
+        }
+    }
+    catch(err){
+        res.status(500).send({'error': err.message});
     }
 }
 
-exports.addReview = async(req, res) => {
-    try {
-        const data = await req.body;
-        console.log(data);
-
-        const result = new model.Review(data);
-        await result.save();
-        res.status(201).send(result);
-    } catch(err) {
-        res.status(400).send(err.message);
+exports.postReview = async(req, res) => {
+    try{
+        const review = new model.Review(req.body);
+        await review.save();
+        res.status(201).send({'Reviews': review});
+    }
+    catch(err) {
+        res.status(500).send({'error': err.message});
     }
 }
 
-exports.updateReview = async(req, res) => {
-    try {
-        const query = await req.body.query;
-        const data = await req.body.data;
-        const result = await model.Review.updateMany(query, data);
-        res.status(201).json(result);
-
-    } catch(err) {
-        res.status(500).send(err);
+exports.patchReview = async(req, res) => {
+    try{
+        const reviewID = req.params.id;
+        const result = await model.Review.findOneAndUpdate({_id: reviewID}, req.body, {new: true});
+        console.log(result);
+        res.status(201).send({'Reviews': result});
     }
-}
-
-exports.deleteReview = async(req, res) => {
-    try {
-        const result = await model.Review.deleteOne(req.body.id);
-        res.status(201).json(result);
-    } catch(err) {
-        res.status(500).send(err);
+    catch(err) {
+        res.status(500).send({'error': err.message});
     }
 }
