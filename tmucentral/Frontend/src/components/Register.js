@@ -47,17 +47,18 @@
 
 import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert } from "react-bootstrap"
-import { useAuth } from "../contexts/AuthContext"
+//import { useAuth } from "../contexts/AuthContext" // has error
 import { Link, useNavigate } from "react-router-dom" // Updated here
 
-export default function Register() {
+export default function Register({onFormSubmit}) {
   const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
+  //const { signup } = useAuth() // has error
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate() // Updated here
+
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -69,7 +70,14 @@ export default function Register() {
     try {
       setError("")
       setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
+
+      const data = {
+        email: emailRef.current.value,
+        password: passwordRef.current.value
+      };
+      const msg = "Form submitted sucessfully!";
+      await onFormSubmit('/postUser', data, msg);
+
       navigate("/") // Updated here
     } catch {
       setError("Failed to create an account")

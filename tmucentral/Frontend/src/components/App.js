@@ -10,18 +10,50 @@ import PostAd from './PostAd';
 import Login from './Login';
 import AdminDashboard from './AdminDashboard';
 import PrivateRoute from './PrivateRoute';
-import { AuthProvider } from "../contexts/AuthContext"
-import Dash from './Dash';
+//import { AuthProvider } from "../contexts/AuthContext" //not working
+//import Dash from './Dash'; //not working
+
+
+  // Manage server API POST for new form submissions
+  async function handleFormSubmit(path, data, msg) { 
+    const PORT = process.env.PORT || 3005;
+    const url = `http://localhost:${PORT}/api/database/${path}`;
+    try {
+        const response = await fetch(url, {
+            method: "POST", 
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        });
+        
+        const responseData = await response.json();
+  
+        // Check if any errors occurred
+        if (!response.ok) {
+            if (responseData) {
+                alert(responseData.error);
+            }
+            throw new Error("Network reponse was not okay");
+        }
+  
+        // Update user that form was submitted sucessfully to the server
+        console.log("Data Submitted: ", responseData);
+        if (msg) {
+          alert(msg);
+        }
+        
+    } catch (err) {
+        console.error(err);
+    }
+  };
+
 function App() {
-
-
   return (
 
 <BrowserRouter>
-<AuthProvider>
+{/* <AuthProvider>  //not working*/}
   <Routes>
   <Route path='/postad' element={
-      <PostAd/>
+      <PostAd onFormSubmit={handleFormSubmit}/>
   
   
   } />
@@ -36,18 +68,22 @@ function App() {
     </div>
     </div>
   } />
-    <Route path="/register" element={<Register/>} />
-    <Route path="/login" element={<Login/>} />
-    {/* <Route path="/admin" element={<AdminDashboard/>} /> */}
+    <Route path="/register" element={
+      <Register onFormSubmit={handleFormSubmit}/>
+    } />
+    <Route path="/login" element={
+      <Login onFormSubmit={handleFormSubmit}/>
+    } />
+    <Route path="/admin" element={<AdminDashboard/>} />
     
-    <Route element={<PrivateRoute />}> 
-            <Route path="/dashboard" element={<Dash />} />
-          </Route>
+    {/* <Route element={<PrivateRoute />}>  */}
+            {/* <Route path="/dashboard" element={<Dash />} />*/}
+          {/* </Route> */}
 
 
-    <Route path="/admin" element={<PrivateRoute component={AdminDashboard} />} />
+    {/* <Route path="/admin" element={<PrivateRoute component={AdminDashboard} />} /> */}
   </Routes>
-  </AuthProvider>
+  {/* </AuthProvider>  //not working */}
 </BrowserRouter>
 
 
